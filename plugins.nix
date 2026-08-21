@@ -49,8 +49,6 @@ with pkgs.vimPlugins; [
   {plugin = vim-easy-align;}
   {plugin = nvim-web-devicons;}
 
-  # {plugin = baleia-nvim;} # used by compile-mode
-
   # --- Telescope shite ---
   {
     plugin = telescope-nvim;
@@ -108,13 +106,14 @@ with pkgs.vimPlugins; [
   # --- Clangd ---
   {
     plugin = nvim-lspconfig;
-    # runtimeDeps = [pkgs.clang-tools];
+    runtimeDeps = [pkgs.clang-tools];
     grammars = ["c" "cpp"];
   }
 
   # --- Lua ---
   {
     plugin = nvim-lspconfig;
+    runtimeDeps = [pkgs.lua-language-server];
     grammars = ["lua"];
   }
 ]

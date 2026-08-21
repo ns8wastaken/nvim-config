@@ -1,0 +1,119 @@
+local blink = require("blink.cmp")
+local capabilities = blink.get_lsp_capabilities()
+
+vim.lsp.inlay_hint.enable(false)
+
+-- Function to enable inlay hints on current buffer
+local enable_inlayhints = function()
+    vim.lsp.inlay_hint.enable(true, { 0 })
+end
+
+-- Nix
+vim.lsp.enable("nil_ls")
+vim.lsp.config("nil_ls", { capabilities = capabilities })
+
+-- Python
+vim.lsp.enable("pyright")
+vim.lsp.config("pyright", { capabilities = capabilities })
+
+-- Rust
+vim.lsp.enable("rust_analyzer")
+vim.lsp.config("rust_analyzer", {
+    cmd = { "rustup", "run", "stable", "rust-analyzer" },
+    capabilities = capabilities,
+    on_attach = enable_inlayhints
+})
+
+-- Typescript
+vim.lsp.enable("ts_ls")
+vim.lsp.config("ts_ls", { capabilities = capabilities })
+
+-- HTML
+vim.lsp.enable("html")
+vim.lsp.config("html", { capabilities = capabilities })
+
+-- CSS
+local cssls_caps = vim.lsp.protocol.make_client_capabilities()
+cssls_caps.textDocument.completion.completionItem.snippetSupport = true -- Needed otherwise autocomplete wont work
+vim.lsp.enable("cssls")
+vim.lsp.config("cssls", { capabilities = cssls_caps })
+
+-- Clangd
+vim.lsp.enable("clangd")
+vim.lsp.config("clangd", { capabilities = capabilities })
+
+-- Lua
+vim.lsp.enable("lua_ls")
+vim.lsp.config("lua_ls", {
+    capabilities = capabilities,
+
+    settings = {
+        Lua = {
+            -- runtime = {
+            --     version = 'LuaJIT' -- (Neovim uses this)
+            -- },
+            diagnostics = {
+                -- Recognize the `vim` global
+                globals = { "vim" }
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false -- Optional: avoid prompt to configure third-party
+            },
+            telemetry = {
+                enable = false,
+            }
+        }
+    }
+})
+
+-- -- Go
+-- vim.lsp.enable("gopls")
+-- vim.lsp.config("gopls", { capabilities = capabilities })
+--
+-- -- Assembly
+-- vim.lsp.enable("asm_lsp")
+-- vim.lsp.config("asm_lsp", { capabilities = capabilities })
+--
+-- -- GLSL
+-- vim.lsp.enable("glsl_analyzer")
+-- vim.lsp.config("glsl_analyzer", { capabilities = capabilities })
+--
+-- -- QML
+-- vim.lsp.config("qml-language-server", {
+--     cmd = { "qml-language-server" },
+--     filetypes = { "qml" },
+--     root_markers = { { "qmldir", "shell.qml" }, ".git" },
+-- })
+-- vim.lsp.enable("qml-language-server")
+--
+-- -- Nim
+-- vim.lsp.enable("nim_langserver")
+-- vim.lsp.config("nim_langserver", {
+--     capabilities = capabilities,
+--
+--     settings = {
+--         nim = {
+--             nimSuggestPath = "~/.nimble/bin/nimsuggest"
+--         }
+--     }
+-- })
+--
+-- -- Svelte
+-- vim.lsp.enable("svelte")
+-- vim.lsp.config("svelte", {
+--     capabilities = capabilities,
+--     -- on_attach = enable_inlayhints,
+--
+--     -- This doesnt seem to work
+--     settings = {
+--         tyepscript = {
+--             inlayHints = {
+--                 variableTypes = {
+--                     enabled = false
+--                 }
+--             }
+--         }
+--     }
+-- })

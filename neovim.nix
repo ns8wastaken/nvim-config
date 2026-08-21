@@ -37,16 +37,15 @@
   );
 
   allPlugins = allVimPlugins ++ [treesitterPlugin];
+
+  binPath = pkgs.lib.makeBinPath runtimeTools;
 in
   pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
     name = "neovim";
     wrapRc = false;
     plugins = allPlugins;
     wrapperArgs = [
-      "--prefix"
-      "PATH"
-      ":"
-      (lib.makeBinPath runtimeTools)
+      "--prefix" "PATH" ":" binPath
 
       "--add-flags"
       ''--cmd "set runtimepath^=${./.}"''
