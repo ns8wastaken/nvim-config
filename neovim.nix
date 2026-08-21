@@ -45,7 +45,10 @@ in
     wrapRc = false;
     plugins = allPlugins;
     wrapperArgs = [
-      "--prefix" "PATH" ":" binPath
+      "--prefix"
+      "PATH"
+      ":"
+      binPath
 
       "--add-flags"
       ''--cmd "set runtimepath^=${./.}"''
