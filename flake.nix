@@ -14,7 +14,7 @@
   # Automatically generates outputs for all default systems
     flake-utils.lib.eachDefaultSystem (
       system: let
-	pkgs = import nixpkgs {
+        pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         };

@@ -27,7 +27,7 @@
     builtins.concatMap (m: m.runtimeDeps or []) pluginModules
   );
 
-  # Extract, deduplicate, and compile Treesitter grammars
+  # Extract and deduplicate Treesitter grammars
   treesitterGrammarNames = lib.lists.unique (
     builtins.concatMap (m: m.grammars or []) pluginModules
   );

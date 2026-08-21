@@ -1,3 +1,7 @@
+vim.g.state_path = function(filename)
+    return vim.fn.stdpath("state") .. "/" .. filename
+end
+
 -- Custom ternary function because lua doesn't have ternary operators :(
 vim.g.ternary = function(condition, val_true, val_false)
     if condition then
@@ -7,68 +11,42 @@ vim.g.ternary = function(condition, val_true, val_false)
     end
 end
 
-local colorscheme_file = vim.fn.stdpath("config") .. "/colorscheme.txt"
+local colorscheme_file = vim.g.state_path("colorscheme.txt")
 
 vim.g.save_colorscheme = function()
     local f = io.open(colorscheme_file, "w")
 
     if f then
-        f:write(vim.g.colors_name)
+        f:write(vim.g.colors_name or "desert")
         f:close()
     end
 end
 
 vim.g.load_colorscheme = function()
-    local f = io.open(colorscheme_file, 'r')
+    local f = io.open(colorscheme_file, "r")
 
     if f then
         local name = f:read("*l")
         f:close()
         if name and #name > 0 then
-            vim.cmd("colorscheme " .. name)
+            pcall(vim.cmd.colorscheme, name)
+            return
         end
-    else
-        -- Fallback colorscheme
-        vim.cmd("colorscheme desert")
     end
+
+    -- Fallback colorscheme
+    vim.cmd.colorscheme("desert")
 end
 
 vim.g.require_dir = function(module_dir)
-    local lua_root = vim.fn.stdpath("config") .. "/lua/"
     local fs_dir = module_dir:gsub("%.", "/")
-    local path = lua_root .. fs_dir
+    -- Searches whatever directory was added to runtimepath (via -u / --cmd)
+    local files = vim.api.nvim_get_runtime_file("lua/" .. fs_dir .. "/*.lua", true)
 
-    for _, file in ipairs(vim.fn.globpath(path, "*.lua", false, true)) do
+    for _, file in ipairs(files) do
         local name = vim.fn.fnamemodify(file, ":t:r")
         require(module_dir .. "." .. name)
     end
-end
-
----@param module_dir string
----@param ignore? table<string, true> -- set of module names to ignore
----@return table<string, any>?
-vim.g.require_dir_table = function(module_dir, ignore)
-    local modules = {}
-
-    if module_dir == nil then
-        return nil
-    end
-
-    local _ignore = ignore or {}
-
-    local lua_root = vim.fn.stdpath("config") .. "/lua/"
-    local fs_dir = module_dir:gsub("%.", "/")
-    local path = lua_root .. fs_dir
-
-    for _, file in ipairs(vim.fn.globpath(path, "*.lua", false, true)) do
-        local name = vim.fn.fnamemodify(file, ":t:r")
-
-        if not _ignore[name] then
-            modules[name] = require(module_dir .. "." .. name)
-        end
-    end
-
-    return modules
 end
 
 -- Make floating window borders rounded
