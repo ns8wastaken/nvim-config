@@ -19,7 +19,6 @@ vim.lsp.config("pyright", { capabilities = capabilities })
 -- Rust
 vim.lsp.enable("rust_analyzer")
 vim.lsp.config("rust_analyzer", {
-    cmd = { "rustup", "run", "stable", "rust-analyzer" },
     capabilities = capabilities,
     on_attach = enable_inlayhints
 })
