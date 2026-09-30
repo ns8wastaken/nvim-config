@@ -47,7 +47,7 @@ with pkgs.vimPlugins; [
 
   {plugin = nvim-notify;}
   {plugin = vim-easy-align;}
-  {plugin = nvim-web-devicons;}
+  # {plugin = nvim-web-devicons;}
 
   # --- Telescope shite ---
   {
