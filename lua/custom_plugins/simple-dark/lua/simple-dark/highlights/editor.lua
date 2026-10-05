@@ -11,8 +11,8 @@ return function(c) return {
     Cursor       = { fg = c.bg, bg = c.fg },
     CursorLine   = { bg = "#262626" },
     CursorColumn = { bg = "#262626" },
-    Visual       = { bg = "#333333" },
-    VisualNOS    = { bg = "#333333" },
+    Visual       = { bg = "#5c3b24" },
+    VisualNOS    = { bg = "#5c3b24" },
 
     -- Search
     Search    = { fg = c.fg, bg = "#444444" },
