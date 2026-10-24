@@ -102,6 +102,12 @@ with pkgs.vimPlugins; [
     runtimeDeps = [pkgs.vscode-langservers-extracted];
     grammars = ["html" "css" "json"];
   }
+  {
+    # Svelte
+    plugin = nvim-lspconfig;
+    runtimeDeps = [pkgs.svelte-language-server];
+    grammars = ["svelte" "html" "css" "javascript" "typescript"];
+  }
 
   # --- Clangd ---
   {
