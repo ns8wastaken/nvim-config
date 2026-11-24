@@ -10,7 +10,18 @@ end
 
 -- Nix
 vim.lsp.enable("nil_ls")
-vim.lsp.config("nil_ls", { capabilities = capabilities })
+vim.lsp.config("nil_ls", {
+    capabilities = capabilities,
+    settings = {
+      ["nil"] = {
+        nix = {
+          flake = {
+            autoArchive = true
+          }
+        }
+      }
+    }
+})
 
 -- Python
 vim.lsp.enable("pyright")
